@@ -13,14 +13,13 @@
 # limitations under the License.
 
 import datetime
-import json
 import os
 from zoneinfo import ZoneInfo
 
 import google.auth
 from google.adk.agents import Agent
-from google.adk.tools import ToolContext
 
+from app.agents.evaluator import evaluator
 from app.agents.interviewer import interviewer
 from app.agents.problem_generator import problem_generator
 from app.utils import constants
@@ -71,8 +70,9 @@ root_agent = Agent(
     Route user requests:
     - Initial prompt always goes to "ProblemGenerator".
     - Any following non-code prompt always goes to "Interviewer".
+    - When the interview concludes with code implementation and follow-up questions, go to "Evaluator". 
     """,
-    sub_agents=[problem_generator, interviewer],
+    sub_agents=[problem_generator, interviewer, evaluator],
 )
 
 agent = root_agent
