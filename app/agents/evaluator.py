@@ -48,7 +48,7 @@ eval_generator = Agent(
 
 eval_describer = Agent(
     name="EvaluationDescriber",
-    model = constants.MODEL,
+    model=constants.MODEL,
     description = "An agent that provides mock interview feedback",
     instruction=f"""
     Provide feedback on user's mock interview performance if state key "evaluation_result" is valid.
