@@ -9,4 +9,5 @@
   - prepends prompt with "I'd like to conclude this mock interview. Transfer to agent 'Evaluator'"
 
 ### [deployment]
+- adjust so gcp credentials are provided in the container
 - project skeleton already has terraform templates, deploy to GCP

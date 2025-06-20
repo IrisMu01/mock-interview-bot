@@ -39,3 +39,9 @@ lint:
 	uv run ruff check . --diff
 	uv run ruff format . --check --diff
 	uv run mypy .
+
+docker:
+	docket stop mock-interview-bot || true
+	docker rm mock-interview-bot || true
+	docker build -t mock-interview-bot .
+	docker run --name mock-interview-bot -p 8000:8000 mock-interview-bot

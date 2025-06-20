@@ -13,15 +13,21 @@
 # limitations under the License.
 
 import os
+from pathlib import Path
 
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from google.adk.cli.fast_api import get_fast_api_app
 from google.cloud import logging as google_cloud_logging
 from opentelemetry import trace
 from opentelemetry.sdk.trace import TracerProvider, export
+from starlette.responses import FileResponse, RedirectResponse
+from starlette.staticfiles import StaticFiles
 
 from app.utils.tracing import CloudTraceLoggingSpanExporter
 from app.utils.typing import Feedback
+
+import mimetypes
 
 logging_client = google_cloud_logging.Client()
 logger = logging_client.logger(__name__)
@@ -32,10 +38,29 @@ provider.add_span_processor(processor)
 trace.set_tracer_provider(provider)
 
 AGENT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-app: FastAPI = get_fast_api_app(agent_dir=AGENT_DIR, web=True)
+BASE_DIR = Path(__file__).parent.parent.resolve()
+REACT_DIST_PATH = BASE_DIR / "front-end/dist"
+app: FastAPI = get_fast_api_app(agent_dir=AGENT_DIR, web=False)
 
 app.title = "mock-interview-bot"
 app.description = "API for interacting with the Agent mock-interview-bot"
+
+origins = [
+    "http://localhost:5173",
+    "localhost:5173"
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"]
+)
+
+mimetypes.add_type("text/css", ".css")
+mimetypes.add_type("application/javascript", ".js")
+mimetypes.add_type("application/javascript", ".jsx")
 
 
 @app.post("/feedback")
@@ -51,6 +76,12 @@ def collect_feedback(feedback: Feedback) -> dict[str, str]:
     logger.log_struct(feedback.model_dump(), severity="INFO")
     return {"status": "success"}
 
+@app.get("/")
+async def prod_ui():
+    """Overrides the ADK-provided redirect."""
+    return FileResponse(BASE_DIR / "front-end/dist/index.html")
+
+app.mount("/", StaticFiles(directory=REACT_DIST_PATH, html=True), name="static")
 
 # Main execution
 if __name__ == "__main__":
