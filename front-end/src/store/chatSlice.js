@@ -1,6 +1,6 @@
 import {createSlice, createAsyncThunk, nanoid} from '@reduxjs/toolkit';
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '';
 
 export const sendMessage = createAsyncThunk(
   'chat/sendMessage',
