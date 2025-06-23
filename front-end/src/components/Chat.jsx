@@ -1,10 +1,10 @@
 import React, {useState, useRef, useEffect} from 'react';
 import {useSelector} from 'react-redux';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {faPaperPlane} from '@fortawesome/free-solid-svg-icons';
+import {faChevronRight} from '@fortawesome/free-solid-svg-icons';
 import {useDispatch} from 'react-redux';
 import {sendMessage} from '../store/chatSlice';
-import Message from "./Message";
+import Message from "./message/Message.jsx";
 
 
 export default function Chat() {
@@ -50,8 +50,8 @@ export default function Chat() {
           onClick={handleSend}
           className="self-end flex items-center gap-1 bg-blue-600 hover:bg-blue-700 text-white text-sm px-3 py-1 rounded"
         >
-          <span>Send</span>
-          <FontAwesomeIcon icon={faPaperPlane}/>
+          <span>Respond</span>
+          <FontAwesomeIcon icon={faChevronRight}/>
         </button>
       </div>
     </div>

@@ -2,17 +2,26 @@ import React, {useState} from 'react';
 import Editor from '@monaco-editor/react';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faPlay} from '@fortawesome/free-solid-svg-icons';
+import {useDispatch, useSelector} from 'react-redux';
+import {submitCode} from '../store/submissionSlice';
 
 export default function IDETab() {
   const [code, setCode] = useState(`def solution():\n    pass`);
-  const [testCases, setTestCases] = useState(`{
+  const [testCases, setTestCases] = useState(`[{
   "input": [1, 2, 3],
   "expected": 6
-}`);
+}]`);
+
+  const dispatch = useDispatch();
+  const submitting = useSelector(state => state.submission.loading);
 
   const handleSubmit = () => {
-    console.log('Code:', code);
-    console.log('Test Cases:', testCases);
+    if (!submitting) {
+      dispatch(submitCode({
+        user_code: code,
+        test_cases: testCases
+      }));
+    }
   };
 
   return (
@@ -29,7 +38,7 @@ export default function IDETab() {
           onChange={value => setCode(value)}
           options={{
             fontSize: 14,
-            minimap: { enabled: false },
+            minimap: {enabled: false},
             wordWrap: 'on',
           }}
         />
@@ -38,12 +47,15 @@ export default function IDETab() {
       {/* Test Cases Panel */}
       <div className="min-h-[200px] border border-gray-700 rounded p-2 bg-gray-900 flex flex-col space-y-2">
         <div className="flex justify-between items-center">
-          <label className="font-semibold">Test Cases (Python dict)</label>
+          <label className="font-semibold">Test Cases (List of Python dicts)</label>
           <button
             onClick={handleSubmit}
-            className="flex items-center gap-1 bg-green-600 hover:bg-green-700 text-white text-sm px-3 py-1 rounded"
+            disabled={submitting}
+            className={`flex items-center gap-1 px-3 py-1 rounded text-white text-sm ${
+              submitting ? 'bg-gray-500 cursor-not-allowed' : 'bg-green-600 hover:bg-green-700'
+            }`}
           >
-            <FontAwesomeIcon icon={faPlay} />
+            <FontAwesomeIcon icon={faPlay}/>
             <span>Submit</span>
           </button>
         </div>
@@ -56,7 +68,7 @@ export default function IDETab() {
           onChange={value => setTestCases(value)}
           options={{
             fontSize: 13,
-            minimap: { enabled: false },
+            minimap: {enabled: false},
             wordWrap: 'on',
           }}
         />

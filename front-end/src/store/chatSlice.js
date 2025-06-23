@@ -1,28 +1,28 @@
-import { createSlice, createAsyncThunk, nanoid } from '@reduxjs/toolkit';
+import {createSlice, createAsyncThunk, nanoid} from '@reduxjs/toolkit';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export const sendMessage = createAsyncThunk(
   'chat/sendMessage',
-  async ({ text }, { getState, requestId, rejectWithValue }) => {
+  async ({text}, {getState, requestId, rejectWithValue}) => {
     const state = getState();
     const sessionId = state.session.data?.id;
     const appName = 'app';
     const userId = 'user';
 
-    if (!sessionId) return rejectWithValue({ requestId, error: 'No session ID available' });
+    if (!sessionId) return rejectWithValue({requestId, error: 'No session ID available'});
 
     try {
       const response = await fetch(`${API_BASE_URL}/run`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({
           appName,
           userId,
           sessionId,
           newMessage: {
             role: 'user',
-            parts: [{ text }],
+            parts: [{text}],
           },
           streaming: false,
         }),
@@ -35,9 +35,9 @@ export const sendMessage = createAsyncThunk(
         entry => entry?.content?.parts?.[0]?.text
       );
       const modelText = textEntry?.content?.parts?.[0]?.text ?? '(no response)';
-      return { requestId, modelText };
+      return {requestId, modelText};
     } catch (err) {
-      return rejectWithValue({ requestId, error: err.message });
+      return rejectWithValue({requestId, error: err.message});
     }
   }
 );
@@ -50,7 +50,31 @@ const chatSlice = createSlice({
     loading: false,
     error: null,
   },
-  reducers: {},
+  reducers: {
+    addSubmissionMessage: (state, action) => {
+      const {text, submissionId} = action.payload;
+      state.data.push({
+        id: crypto.randomUUID(),
+        text,
+        from_user: true,
+        submissionId,
+      });
+    },
+    addThinkingBotMessage: (state, action) => {
+      const {id, submissionId, text} = action.payload;
+      state.data.push({
+        id,
+        text,
+        from_user: false,
+        submissionId,
+      });
+    },
+    updateBotMessageText: (state, action) => {
+      const {id, text} = action.payload;
+      const msg = state.data.find(m => m.id === id);
+      if (msg) msg.text = text;
+    },
+  },
   extraReducers: builder => {
     builder
       .addCase(sendMessage.pending, (state, action) => {
@@ -101,4 +125,9 @@ const chatSlice = createSlice({
   },
 });
 
+export const {
+  addSubmissionMessage,
+  addThinkingBotMessage,
+  updateBotMessageText,
+} = chatSlice.actions;
 export default chatSlice.reducer;
