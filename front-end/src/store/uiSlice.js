@@ -10,6 +10,8 @@ const uiSlice = createSlice({
   "input": [1, 2, 3],
   "expected": 6
 }]`,
+    confirmingEnd: false,
+    concluded: false,
   },
   reducers: {
     setActiveTab: (state, action) => {
@@ -24,6 +26,13 @@ const uiSlice = createSlice({
     setTestCases: (state, action) => {
       state.test_cases = action.payload;
     },
+    setConfirmingEnd: (state, action) => {
+      state.confirmingEnd = action.payload;
+    },
+    setConcluded: (state, action) => {
+      state.concluded = action.payload;
+      state.confirmingEnd = false;
+    },
   },
 });
 
@@ -32,5 +41,7 @@ export const {
   setExpandedSubmissionId,
   setUserCode,
   setTestCases,
+  setConfirmingEnd,
+  setConcluded,
 } = uiSlice.actions;
 export default uiSlice.reducer;

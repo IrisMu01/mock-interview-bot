@@ -27,10 +27,12 @@ export default function UserMessage({ msg }) {
             onClick={handleClick}
             className="text-blue-400 hover:underline font-mono cursor-pointer"
           >
-            > Submission #{msg.submissionId}
+            Submission #{msg.submissionId}
           </button>
         ) : (
-          <span>{msg.text}</span>
+          <span>
+            {msg.isFinal ? "That's it for this mock session." : msg.text}
+          </span>
         )}
       </div>
     </div>

@@ -11,6 +11,7 @@ export default function IDETab() {
   const code = useSelector(state => state.ui.user_code);
   const testCases = useSelector(state => state.ui.test_cases);
   const submitting = useSelector(state => state.submission.loading);
+  const concluded = useSelector(state => state.ui.concluded);
 
   const handleSubmit = () => {
     if (!submitting) {
@@ -47,10 +48,10 @@ export default function IDETab() {
           <label className="font-semibold">Test Cases (List of Python dicts)</label>
           <button
             onClick={handleSubmit}
-            disabled={submitting}
-            className={`flex items-center gap-1 px-3 py-1 rounded text-white text-sm ${
-              submitting ? 'bg-gray-500 cursor-not-allowed' : 'bg-green-600 hover:bg-green-700'
-            }`}
+            disabled={submitting || concluded}
+            className={`flex items-center gap-1 px-3 py-1 rounded text-white text-sm 
+            ${submitting || concluded ? 'bg-gray-500 cursor-not-allowed' : 'bg-green-600 hover:bg-green-700'}
+            `}
           >
             <FontAwesomeIcon icon={faPlay}/>
             <span>Submit</span>

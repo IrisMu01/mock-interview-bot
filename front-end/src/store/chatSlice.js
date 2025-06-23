@@ -31,9 +31,9 @@ export const sendMessage = createAsyncThunk(
       if (!response.ok) throw new Error('Failed to fetch problem');
 
       const responseJson = await response.json();
-      const textEntry = responseJson.find(
+      const textEntry = responseJson.reverse().find(
         entry => entry?.content?.parts?.[0]?.text
-      );
+      ); // Agent configured to return human-readable response at the end
       const modelText = textEntry?.content?.parts?.[0]?.text ?? '(no response)';
       return {requestId, modelText};
     } catch (err) {
@@ -83,11 +83,13 @@ const chatSlice = createSlice({
 
         state.loading = true;
         state.error = null;
+        const isFinal = text.includes("Transfer to agent 'Evaluator'");
 
         state.data.push({
           id: nanoid(),
           text,
           from_user: true,
+          ...(isFinal && {isFinal: true}),
         });
 
         state.data.push({

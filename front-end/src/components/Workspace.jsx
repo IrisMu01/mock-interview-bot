@@ -12,16 +12,16 @@ export default function Workspace() {
     <div className="flex-1 p-4 h-full flex flex-col bg-gray-900">
       <div className="flex space-x-2 mb-4">
         <button
-          className={`px-4 py-2 rounded ${tabIndex === 0 ? "bg-blue-600" : "bg-gray-800"}`}
+          className={`px-4 py-2 rounded cursor-pointer ${tabIndex === 0 ? "bg-blue-600" : "bg-gray-800"}`}
           onClick={() => dispatch(setActiveTab(0))}
         >
           Solution
         </button>
         <button
-          className={`px-4 py-2 rounded ${tabIndex === 1 ? "bg-blue-600" : "bg-gray-800"}`}
+          className={`px-4 py-2 rounded cursor-pointer ${tabIndex === 1 ? "bg-blue-600" : "bg-gray-800"}`}
           onClick={() => dispatch(setActiveTab(1))}
         >
-          Submission
+          Submissions
         </button>
       </div>
 
