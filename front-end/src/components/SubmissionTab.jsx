@@ -7,7 +7,7 @@ export default function SubmissionTab() {
         <label className="block font-semibold">Generated Test Harness</label>
         <textarea
           className="w-full border p-2 rounded h-40 font-mono"
-          defaultValue={`def solution(input):\n    ...`}
+          defaultValue={`def solution():\n    ...`}
         />
       </div>
       <div>
