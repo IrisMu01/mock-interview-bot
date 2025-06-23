@@ -8,27 +8,27 @@ from app.utils import constants
 
 class EvaluationOutput(BaseModel):
     input_output_clarifications: bool = Field(
-        description="Whether the user is aware of valid inputs and expected outputs")
+        description="Whether the user is aware of valid inputs and expected outputs. By default False.")
     constraint_clarifications: bool = Field(
-        description="Whether the user is aware of time and space complexity constraints")
+        description="Whether the user is aware of time and space complexity constraints. By default False.")
     no_excessive_hints: bool = Field(
-        description="Whether the user does not ask for too many hints when stuck")
+        description="Whether the user does not ask for too many hints when stuck. By default None.")
     brute_force_first: bool = Field(
-        description="Whether the user considers a brute-force solution if the optimal approach isn't obvious")
+        description="Whether the user considers a brute-force solution if the optimal approach isn't obvious. By default False.")
     optimal_algorithm: bool = Field(
-        description="Whether the user describes a correct, optimal algorithm")
+        description="Whether the user describes a correct, optimal algorithm. By default False.")
     correct_complexities: bool = Field(
-        description="Whether the user describes correct time and space complexities")
+        description="Whether the user describes correct time and space complexities. By default False.")
     discussion_before_code: bool = Field(
-        description="Whether the user discusses the problem thoroughly before starting to write code")
+        description="Whether the user discusses the problem thoroughly before starting to write code. By default False.")
     clean_code: bool = Field(
-        description="Whether the user writes clean, readable code")
+        description="Whether the user writes clean, readable code. By default False.")
     testing_considerations: bool = Field(
-        description="Whether the user considers various test cases and includes edge cases")
+        description="Whether the user considers various test cases and includes edge cases. By default False.")
     clear_debugging: bool = Field(
-        description="Whether the user clearly describes debugging thought process when implementation is buggy")
+        description="Whether the user clearly describes debugging thought process when implementation is buggy. By default False.")
     correct_implementation: bool = Field(
-        description="Whether the user implements the algorithm correctly with the expected time and space complexities")
+        description="Whether the user implements the algorithm correctly with the expected time and space complexities. By default False.")
 
 eval_generator = Agent(
     name="EvalGenerator",
