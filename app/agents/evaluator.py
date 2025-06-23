@@ -38,7 +38,8 @@ eval_generator = Agent(
     You are a technical interviewer assisting with a live coding interview with the user. Your role is to produce 
     evaluations on user performance. 
     
-    Based on conversation history in this session, respond ONLY with a JSON object matching this exact schema:
+    Analyze this session's conversation history, focusing on user messages. 
+    Respond ONLY with a JSON object matching this exact schema:
     ${json.dumps(EvaluationOutput.model_json_schema(), indent=2)}
     Do not use any tools. 
     """,
