@@ -17,7 +17,7 @@ export default function IDETab() {
 
   return (
     <div className="flex flex-col h-full space-y-2">
-      {/* Code Editor (fills remaining space, but shrinks if needed) */}
+      {/* Code Editor */}
       <div className="flex-1 min-h-0 border border-gray-700 p-2 rounded overflow-hidden">
         <div className="flex justify-between items-center pb-2">
           <label className="font-semibold">Solution (Python)</label>
@@ -35,7 +35,7 @@ export default function IDETab() {
         />
       </div>
 
-      {/* Test Cases Panel (min height only) */}
+      {/* Test Cases Panel */}
       <div className="min-h-[200px] border border-gray-700 rounded p-2 bg-gray-900 flex flex-col space-y-2">
         <div className="flex justify-between items-center">
           <label className="font-semibold">Test Cases (Python dict)</label>
