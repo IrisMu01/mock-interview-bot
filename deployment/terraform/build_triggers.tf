@@ -34,7 +34,8 @@ resource "google_cloudbuild_trigger" "pr_checks" {
     "tests/**",
     "deployment/**",
     "uv.lock",
-  
+    "Dockerfile",
+    "front-end/**",
   ]
   include_build_logs = "INCLUDE_BUILD_LOGS_WITH_STATUS"
   depends_on = [resource.google_project_service.cicd_services, resource.google_project_service.shared_services]
