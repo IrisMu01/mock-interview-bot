@@ -14,7 +14,7 @@ mock-interview-bot/
 │   ├── server.py        # FastAPI Backend server
 │   └── utils/           # Utility functions and helpers
 ├── deployment/          # Infrastructure and deployment scripts
-├── notebooks/           # Jupyter notebooks for prototyping and evaluation
+├── front-end/           # React Frontend server
 ├── tests/               # Unit, integration, and load tests
 ├── Makefile             # Makefile for common commands
 └── pyproject.toml       # Project dependencies and configuration
@@ -27,14 +27,40 @@ Before you begin, ensure you have:
 - **Google Cloud SDK**: For GCP services - [Install](https://cloud.google.com/sdk/docs/install)
 - **Terraform**: For infrastructure deployment - [Install](https://developer.hashicorp.com/terraform/downloads)
 - **make**: Build automation tool - [Install](https://www.gnu.org/software/make/) (pre-installed on most Unix-based systems)
+- **node** v20+
 
-
-## Quick Start (Local Testing)
+## Quick Start With Dev UI
 
 Install required packages and launch the local development environment:
 
 ```bash
 make install && make playground
+```
+
+## Run app locally
+### Backend
+Add your `GOOGLE_CLOUD_PROJECT`, `GOOGLE_CLOUD_LOCATION`, `BUCKET_NAME` and run:
+```bash
+make local-backend
+```
+### Frontend
+Add `VITE_API_BASE_URL=http://localhost:8080` to `./front-end/.env`. Ensure you're at the root directory 
+and run:
+```bash
+make local-frontend
+```
+### As Docker container
+You need to set up a Google Cloud service account key JSON file, copy it to `./credentials.json`, and modify 
+`Dockerfile`:
+```Dockerfile
+# Set up the working directory
+WORKDIR /code
+
+# Copy the service account key JSON file into the container
+COPY credentials.json ./
+
+# Set the GOOGLE_APPLICATION_CREDENTIALS environment variable to authenticate with the service account
+ENV GOOGLE_APPLICATION_CREDENTIALS="./credentials.json"
 ```
 
 ## Commands

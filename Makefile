@@ -30,6 +30,9 @@ backend:
 local-backend:
 	uv run uvicorn app.server:app --host 0.0.0.0 --port 8080 --reload
 
+local-frontend:
+	cd front-end && npm install && npm run dev
+
 setup-dev-env:
 	PROJECT_ID=$$(gcloud config get-value project) && \
 	(cd deployment/terraform/dev && terraform init && terraform apply --var-file vars/env.tfvars --var dev_project_id=$$PROJECT_ID --auto-approve)
