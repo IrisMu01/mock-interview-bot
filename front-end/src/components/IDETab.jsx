@@ -1,25 +1,22 @@
-import React, {useState} from 'react';
+import React from 'react';
 import Editor from '@monaco-editor/react';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faPlay} from '@fortawesome/free-solid-svg-icons';
 import {useDispatch, useSelector} from 'react-redux';
 import {submitCode} from '../store/submissionSlice';
+import {setUserCode, setTestCases} from '../store/uiSlice';
 
 export default function IDETab() {
-  const [code, setCode] = useState(`def solution():\n    pass`);
-  const [testCases, setTestCases] = useState(`[{
-  "input": [1, 2, 3],
-  "expected": 6
-}]`);
-
   const dispatch = useDispatch();
+  const code = useSelector(state => state.ui.user_code);
+  const testCases = useSelector(state => state.ui.test_cases);
   const submitting = useSelector(state => state.submission.loading);
 
   const handleSubmit = () => {
     if (!submitting) {
       dispatch(submitCode({
         user_code: code,
-        test_cases: testCases
+        test_cases: testCases,
       }));
     }
   };
@@ -35,7 +32,7 @@ export default function IDETab() {
           defaultLanguage="python"
           theme="vs-dark"
           value={code}
-          onChange={value => setCode(value)}
+          onChange={value => dispatch(setUserCode(value))}
           options={{
             fontSize: 14,
             minimap: {enabled: false},
@@ -65,7 +62,7 @@ export default function IDETab() {
           defaultLanguage="python"
           theme="vs-dark"
           value={testCases}
-          onChange={value => setTestCases(value)}
+          onChange={value => dispatch(setTestCases(value))}
           options={{
             fontSize: 13,
             minimap: {enabled: false},
