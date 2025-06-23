@@ -42,6 +42,8 @@ WORKDIR /code/front-end
 RUN npm install
 RUN npm rebuild esbuild --platform=linux --arch=arm64
 
+RUN npm run build
+
 WORKDIR /code
 
 # Sync the Python code
