@@ -5,4 +5,4 @@ project_name = "mock-interview-bot"
 dev_project_id = "your-dev-project-id"
 
 # The Google Cloud region you will use to deploy the infrastructure
-region = "us-east4"
+region = "us-east1"

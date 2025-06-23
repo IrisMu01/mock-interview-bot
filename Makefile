@@ -21,7 +21,7 @@ backend:
 		--source . \
 		--memory "4Gi" \
 		--project $$PROJECT_ID \
-		--region "us-east4" \
+		--region "us-east1" \
 		--no-allow-unauthenticated \
 		--labels "created-by=adk" \
 		--set-env-vars \
