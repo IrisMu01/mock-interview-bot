@@ -3,6 +3,11 @@
 A base ReAct agent built with Google's Agent Development Kit (ADK)
 Agent generated with [`googleCloudPlatform/agent-starter-pack`](https://github.com/GoogleCloudPlatform/agent-starter-pack) version `0.4.0`
 
+## Quick links
+- [Demo](https://www.youtube.com/watch?v=zozhLDsEmOo)
+- [Prod deployment](https://mock-interview-bot-383284464298.us-east1.run.app/)
+
+
 ## Project Structure
 
 This project is organized as follows:
