@@ -17,4 +17,4 @@ host_connection_name = "git-mock-interview-bot"
 repository_name = "IrisMu01-mock-interview-bot"
 
 # The Google Cloud region you will use to deploy the infrastructure
-region = "us-east1"
+region = "us-east4"

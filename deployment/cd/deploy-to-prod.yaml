@@ -46,7 +46,7 @@ steps:
 
 substitutions:
   _PROD_PROJECT_ID: YOUR_PROD_PROJECT_ID
-  _REGION: us-east1
+  _REGION: us-east4
 
 logsBucket: gs://${PROJECT_ID}-mock-interview-bot-logs-data/build-logs
 options:
