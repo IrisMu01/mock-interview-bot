@@ -12,8 +12,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Use the official Python image
+# Use the official Python image as a base
 FROM python:3.13-slim
+
+# Install the required packages, including curl and gnupg
+RUN apt-get update && \
+    apt-get install -y curl gnupg2 lsb-release
 
 # Install Node.js and npm
 RUN apt-get update && \
@@ -21,37 +25,30 @@ RUN apt-get update && \
     curl -sL https://deb.nodesource.com/setup_16.x | bash - && \
     apt-get install -y nodejs
 
-# Install Python dependencies
-RUN pip install --no-cache-dir uv==0.6.12
-
-# Set the working directory to /code
+# Set up the working directory
 WORKDIR /code
 
-# Copy Python dependencies and configuration
+# Copy your project files into the container
 COPY ./pyproject.toml ./README.md ./uv.lock* ./
-
-# Copy the app code
 COPY ./app ./app
-
-# Copy the front-end code
 COPY ./front-end ./front-end
 
-# Set the working directory to front-end and install dependencies
+# Install dependencies (for both Python and Node.js)
+RUN pip install --no-cache-dir uv==0.6.12
+
 WORKDIR /code/front-end
 
 # Clean npm cache, install dependencies, and rebuild esbuild for the correct platform
 RUN npm install
 RUN npm rebuild esbuild --platform=linux --arch=arm64
 
-# Move back to the /code directory and copy the built front-end to the static directory
 WORKDIR /code
-COPY ./front-end/dist /code/app/static
 
-# Run the uv sync command
+# Sync the Python code
 RUN uv sync --frozen
 
-# Expose port 8080 for the server
-EXPOSE 8080
+# Expose the application port
+EXPOSE 8000
 
-# Start the server
-CMD ["uv", "run", "uvicorn", "app.server:app", "--host", "0.0.0.0", "--port", "8080"]
+# Command to run your application
+CMD ["uv", "run", "uvicorn", "app.server:app", "--host", "0.0.0.0", "--port", "8000"]

@@ -195,3 +195,6 @@ my_env.tfvars
 .saved_chats
 .env
 .requirements.txt
+/deployment/terraform/terraform.tfstate
+/deployment/terraform/terraform.tfstate.backup
+/credentials.json
