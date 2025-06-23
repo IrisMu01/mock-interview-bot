@@ -40,7 +40,7 @@ trace.set_tracer_provider(provider)
 AGENT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE_DIR = Path(__file__).parent.parent.resolve()
 REACT_DIST_PATH = BASE_DIR / "front-end/dist"
-app: FastAPI = get_fast_api_app(agent_dir=AGENT_DIR, web=True)
+app: FastAPI = get_fast_api_app(agent_dir=AGENT_DIR, web=False)
 
 app.title = "mock-interview-bot"
 app.description = "API for interacting with the Agent mock-interview-bot"
